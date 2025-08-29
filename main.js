@@ -22,14 +22,15 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.webContents.on('new-window', function(e, url) {
-    e.preventDefault();
+  // Handle all external links
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
+    return { action: 'deny' };
   });
 
-  mainWindow.webContents.on('will-navigate', function(e, url) {
+  mainWindow.webContents.on('will-navigate', (event, url) => {
     if (url !== mainWindow.webContents.getURL()) {
-      e.preventDefault();
+      event.preventDefault();
       shell.openExternal(url);
     }
   });

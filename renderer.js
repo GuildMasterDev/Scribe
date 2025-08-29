@@ -174,12 +174,16 @@ function createResourceCard(resource) {
         <span class="category-tag">${resource.category.replace('-', ' ')}</span>
         <h3>${resource.name}</h3>
         <p>${resource.description}</p>
-        <a href="${resource.url}" class="resource-link" target="_blank">Visit Resource</a>
+        <a href="${resource.url}" class="resource-link">Visit Resource</a>
     `;
     
     card.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('resource-link')) {
-            window.open(resource.url, '_blank');
+        if (!e.target.closest('.resource-link')) {
+            e.preventDefault();
+            const link = card.querySelector('.resource-link');
+            if (link) {
+                window.location.href = resource.url;
+            }
         }
     });
     
@@ -212,11 +216,9 @@ function initializeApp() {
         });
     });
     
+    // Remove target="_blank" to let Electron handle external links
     document.querySelectorAll('a[target="_blank"]').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.open(link.href, '_blank');
-        });
+        link.removeAttribute('target');
     });
 }
 
