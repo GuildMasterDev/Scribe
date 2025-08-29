@@ -1,0 +1,25 @@
+{
+  "name": "scribe",
+  "version": "1.0.0",
+  "description": "A kiosk-style Electron app providing author resources for writing, publishing, and marketing",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuildMasterDev/Scribe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GuildMasterDev/Scribe/issues"
+  },
+  "homepage": "https://github.com/GuildMasterDev/Scribe#readme",
+  "devDependencies": {
+    "electron": "^37.4.0"
+  }
+}

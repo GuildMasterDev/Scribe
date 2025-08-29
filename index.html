@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribe - Author Resources</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Scribe</h1>
+            <p class="tagline">Your Complete Author Resource Directory</p>
+        </header>
+
+        <nav class="category-nav">
+            <button class="category-btn active" data-category="all">All Resources</button>
+            <button class="category-btn" data-category="writing">Writing Tools</button>
+            <button class="category-btn" data-category="publishing">Publishing</button>
+            <button class="category-btn" data-category="self-publishing">Self-Publishing</button>
+            <button class="category-btn" data-category="marketing">Marketing</button>
+            <button class="category-btn" data-category="printing">Printing & Merch</button>
+            <button class="category-btn" data-category="communities">Communities</button>
+        </nav>
+
+        <main class="resources-grid" id="resourcesGrid">
+            <!-- Resources will be dynamically loaded here -->
+        </main>
+
+        <footer>
+            <p>All links open in your default browser</p>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
