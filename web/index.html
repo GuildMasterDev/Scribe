@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Scribe — a curated directory of writing tools, publishers, self-publishing platforms, marketing services, printing partners, and writer communities.">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="color-scheme" content="dark">
+    <meta property="og:title" content="Scribe — Author Resources">
+    <meta property="og:description" content="A curated directory of resources for writers — from drafting to distribution.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://guildmasterdev.github.io/Scribe">
+    <title>Scribe — Author Resources</title>
+    <style>
+        :root {
+            --ink: #2563eb;
+            --ink-deep: #1d4ed8;
+            --bg: #0a0a0f;
+            --bg-elev: #14141d;
+            --bg-elev-2: #1c1c28;
+            --border: rgba(148, 163, 184, 0.14);
+            --text: #e6e8ef;
+            --text-dim: #9aa3b2;
+            --text-muted: #6b7384;
+            --accent-glow: rgba(37, 99, 235, 0.35);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background:
+                radial-gradient(1200px 600px at 80% -10%, rgba(37, 99, 235, 0.18), transparent 60%),
+                radial-gradient(900px 500px at -10% 10%, rgba(99, 102, 241, 0.12), transparent 60%),
+                var(--bg);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        header {
+            text-align: center;
+            padding: 56px 0 16px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .quill { color: var(--ink); }
+
+        .tagline {
+            font-size: 1.15em;
+            color: var(--text-dim);
+        }
+
+        .install-hint {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 6px 12px;
+            background: rgba(37, 99, 235, 0.12);
+            color: #93b4ff;
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            border-radius: 999px;
+            font-size: 12px;
+            letter-spacing: 0.03em;
+        }
+
+        .search-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 720px;
+            padding: 14px 18px;
+            background: var(--bg-elev);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+
+        .search-input::placeholder { color: var(--text-muted); }
+
+        .search-input:focus {
+            border-color: var(--ink);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: var(--bg-elev-2);
+        }
+
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 28px;
+            padding: 16px;
+            background: var(--bg-elev);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .category-btn {
+            padding: 10px 18px;
+            border: 1px solid var(--border);
+            background: var(--bg-elev-2);
+            color: var(--text-dim);
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .category-btn:hover {
+            color: var(--text);
+            border-color: rgba(37, 99, 235, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            background: var(--ink);
+            border-color: var(--ink);
+            color: white;
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .resource-card {
+            background: var(--bg-elev);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--ink), #8b5cf6);
+            opacity: 0.7;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(37, 99, 235, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(37, 99, 235, 0.1);
+            background: var(--bg-elev-2);
+        }
+
+        .resource-card h3 {
+            color: var(--text);
+            margin-bottom: 8px;
+            font-size: 1.2em;
+            letter-spacing: -0.01em;
+        }
+
+        .category-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(37, 99, 235, 0.12);
+            color: #93b4ff;
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            border-radius: 999px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+
+        .resource-card p {
+            color: var(--text-dim);
+            line-height: 1.55;
+            margin-bottom: 14px;
+            flex-grow: 1;
+        }
+
+        .resource-link {
+            color: #93b4ff;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .resource-link::after {
+            content: '→';
+            transition: transform 0.2s ease;
+        }
+
+        .resource-card:hover .resource-link::after {
+            transform: translateX(4px);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 0;
+            font-size: 1.05em;
+        }
+
+        .stats {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin: -8px 0 16px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 24px 0 36px;
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--text-dim);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+        }
+
+        footer a:hover { color: #93b4ff; border-bottom-color: rgba(37, 99, 235, 0.5); }
+
+        @media (max-width: 600px) {
+            header { padding: 32px 0 12px; }
+            header h1 { font-size: 2.2em; }
+            .container { padding: 16px; }
+            .resources-grid { grid-template-columns: 1fr; gap: 14px; }
+            .category-btn { padding: 8px 14px; font-size: 13px; }
+            .category-nav { padding: 12px; gap: 8px; }
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="quill" aria-hidden="true">✒️</span> Scribe</h1>
+            <p class="tagline">Your Complete Author Resource Directory</p>
+            <span class="install-hint" id="installHint" hidden>Install Scribe as an app from your browser menu</span>
+        </header>
+
+        <div class="search-wrap">
+            <input
+                type="search"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search resources by name, description, or category..."
+                autocomplete="off"
+                spellcheck="false"
+                aria-label="Search resources"
+            />
+        </div>
+
+        <nav class="category-nav" aria-label="Filter by category">
+            <button class="category-btn active" data-category="all">All Resources</button>
+            <button class="category-btn" data-category="writing">Writing Tools</button>
+            <button class="category-btn" data-category="publishing">Publishing</button>
+            <button class="category-btn" data-category="self-publishing">Self-Publishing</button>
+            <button class="category-btn" data-category="marketing">Marketing</button>
+            <button class="category-btn" data-category="printing">Printing &amp; Merch</button>
+            <button class="category-btn" data-category="communities">Communities</button>
+        </nav>
+
+        <p class="stats" id="stats"></p>
+
+        <main class="resources-grid" id="resourcesGrid"></main>
+        <p class="empty-state" id="emptyState" hidden>No resources match your search.</p>
+
+        <footer>
+            <p>All links open in a new tab. Built with care by <a href="https://github.com/GuildMasterDev" target="_blank" rel="noopener noreferrer">GuildMaster Development</a> &mdash; <a href="https://github.com/GuildMasterDev/Scribe" target="_blank" rel="noopener noreferrer">source on GitHub</a>.</p>
+        </footer>
+    </div>
+
+    <script>
+        const resources = [
+            { name: "Grammarly", category: "writing", description: "AI-powered writing assistant for grammar, spelling, and style improvements.", url: "https://www.grammarly.com" },
+            { name: "Scrivener", category: "writing", description: "Professional writing software for authors, screenwriters, and academics.", url: "https://www.literatureandlatte.com/scrivener/overview" },
+            { name: "Hemingway Editor", category: "writing", description: "Makes your writing bold and clear by highlighting complex sentences.", url: "https://hemingwayapp.com" },
+            { name: "Google Docs", category: "writing", description: "Free, cloud-based word processor with real-time collaboration features.", url: "https://docs.google.com" },
+            { name: "ProWritingAid", category: "writing", description: "In-depth writing analysis with style, grammar, and readability reports.", url: "https://prowritingaid.com" },
+
+            { name: "Penguin Random House", category: "publishing", description: "One of the world's largest English-language trade book publishers.", url: "https://www.penguinrandomhouse.com" },
+            { name: "HarperCollins", category: "publishing", description: "Major publishing house with diverse imprints for all genres.", url: "https://www.harpercollins.com" },
+            { name: "QueryTracker", category: "publishing", description: "Comprehensive database of literary agents and their submission guidelines.", url: "https://querytracker.net" },
+            { name: "Publishers Marketplace", category: "publishing", description: "Essential resource for publishing professionals with deal announcements and industry news.", url: "https://www.publishersmarketplace.com" },
+            { name: "Manuscript Wish List", category: "publishing", description: "Find agents and editors actively seeking the kind of book you're writing.", url: "https://www.manuscriptwishlist.com" },
+
+            { name: "Amazon KDP", category: "self-publishing", description: "Kindle Direct Publishing — self-publish eBooks and paperbacks for free.", url: "https://kdp.amazon.com" },
+            { name: "IngramSpark", category: "self-publishing", description: "Professional self-publishing platform with global distribution.", url: "https://www.ingramspark.com" },
+            { name: "Draft2Digital", category: "self-publishing", description: "Simplified ebook and print book publishing to multiple retailers.", url: "https://www.draft2digital.com" },
+            { name: "BookBaby", category: "self-publishing", description: "Complete self-publishing services including editing, design, and distribution.", url: "https://www.bookbaby.com" },
+            { name: "Reedsy", category: "self-publishing", description: "Marketplace for professional editors, designers, and marketers for self-published authors.", url: "https://reedsy.com" },
+
+            { name: "BookBub", category: "marketing", description: "Book discovery service for readers and promotional platform for authors.", url: "https://www.bookbub.com" },
+            { name: "Goodreads", category: "marketing", description: "World's largest site for readers and book recommendations.", url: "https://www.goodreads.com" },
+            { name: "NetGalley", category: "marketing", description: "Service to provide advance reading copies to reviewers and influencers.", url: "https://www.netgalley.com" },
+            { name: "Canva", category: "marketing", description: "Design platform for creating book covers, social media graphics, and promotional materials.", url: "https://www.canva.com" },
+            { name: "MailerLite", category: "marketing", description: "Email marketing platform popular with authors for newsletters and reader funnels.", url: "https://www.mailerlite.com" },
+
+            { name: "PrintNinja", category: "printing", description: "High-quality offset printing for books, games, and custom products.", url: "https://printninja.com" },
+            { name: "Printful", category: "printing", description: "Print-on-demand service for custom merchandise and books.", url: "https://www.printful.com" },
+            { name: "Blurb", category: "printing", description: "Self-publishing platform specializing in photo books and trade books.", url: "https://www.blurb.com" },
+            { name: "Lulu", category: "printing", description: "Print-on-demand and distribution services for books and calendars.", url: "https://www.lulu.com" },
+            { name: "48 Hour Books", category: "printing", description: "Fast turnaround book printing services for short runs.", url: "https://www.48hrbooks.com" },
+
+            { name: "r/writing", category: "communities", description: "Reddit's community for writers to discuss craft, publishing, and share experiences.", url: "https://www.reddit.com/r/writing" },
+            { name: "Absolute Write", category: "communities", description: "Online community and forums for writers at all stages of their career.", url: "https://absolutewrite.com" },
+            { name: "NaNoWriMo", category: "communities", description: "National Novel Writing Month — annual writing event and year-round community.", url: "https://nanowrimo.org" },
+            { name: "Writers Guild of America", category: "communities", description: "Professional labor union for writers in film, television, and digital media.", url: "https://www.wga.org" },
+            { name: "20BooksTo50K", category: "communities", description: "Facebook group focused on making a living through self-publishing.", url: "https://www.facebook.com/groups/20Booksto50k" }
+        ];
+
+        const categoryLabels = {
+            writing: 'Writing Tools',
+            publishing: 'Publishing',
+            'self-publishing': 'Self-Publishing',
+            marketing: 'Marketing',
+            printing: 'Printing & Merch',
+            communities: 'Communities'
+        };
+
+        let currentCategory = 'all';
+        let currentQuery = '';
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function createResourceCard(resource) {
+            const card = document.createElement('article');
+            card.className = 'resource-card';
+            card.dataset.category = resource.category;
+
+            const label = categoryLabels[resource.category] || resource.category;
+            card.innerHTML = `
+                <span class="category-tag">${escapeHtml(label)}</span>
+                <h3>${escapeHtml(resource.name)}</h3>
+                <p>${escapeHtml(resource.description)}</p>
+                <a href="${escapeHtml(resource.url)}" class="resource-link" target="_blank" rel="noopener noreferrer">Visit</a>
+            `;
+            return card;
+        }
+
+        function displayResources() {
+            const grid = document.getElementById('resourcesGrid');
+            const emptyState = document.getElementById('emptyState');
+            const stats = document.getElementById('stats');
+            grid.innerHTML = '';
+
+            const q = currentQuery.trim().toLowerCase();
+            const filtered = resources.filter(r => {
+                if (currentCategory !== 'all' && r.category !== currentCategory) return false;
+                if (!q) return true;
+                return (
+                    r.name.toLowerCase().includes(q) ||
+                    r.description.toLowerCase().includes(q) ||
+                    (categoryLabels[r.category] || r.category).toLowerCase().includes(q)
+                );
+            });
+
+            const frag = document.createDocumentFragment();
+            filtered.forEach(r => frag.appendChild(createResourceCard(r)));
+            grid.appendChild(frag);
+
+            emptyState.hidden = filtered.length !== 0;
+            stats.textContent = filtered.length === resources.length
+                ? `${resources.length} resources`
+                : `Showing ${filtered.length} of ${resources.length} resources`;
+        }
+
+        function initializeApp() {
+            displayResources();
+
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentCategory = button.dataset.category;
+                    displayResources();
+                });
+            });
+
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                currentQuery = e.target.value;
+                displayResources();
+            });
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js').catch(() => {});
+                });
+            }
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                const hint = document.getElementById('installHint');
+                if (hint) hint.hidden = false;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
