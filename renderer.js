@@ -24,6 +24,12 @@ const resources = [
         url: "https://docs.google.com"
     },
     {
+        name: "ProWritingAid",
+        category: "writing",
+        description: "In-depth writing analysis with style, grammar, and readability reports.",
+        url: "https://prowritingaid.com"
+    },
+    {
         name: "Penguin Random House",
         category: "publishing",
         description: "One of the world's largest English-language trade book publishers.",
@@ -36,7 +42,7 @@ const resources = [
         url: "https://www.harpercollins.com"
     },
     {
-        name: "Literary Agents Database",
+        name: "QueryTracker",
         category: "publishing",
         description: "Comprehensive database of literary agents and their submission guidelines.",
         url: "https://querytracker.net"
@@ -48,9 +54,15 @@ const resources = [
         url: "https://www.publishersmarketplace.com"
     },
     {
+        name: "Manuscript Wish List",
+        category: "publishing",
+        description: "Find agents and editors actively seeking the kind of book you're writing.",
+        url: "https://www.manuscriptwishlist.com"
+    },
+    {
         name: "Amazon KDP",
         category: "self-publishing",
-        description: "Kindle Direct Publishing - self-publish eBooks and paperbacks for free.",
+        description: "Kindle Direct Publishing — self-publish eBooks and paperbacks for free.",
         url: "https://kdp.amazon.com"
     },
     {
@@ -102,6 +114,12 @@ const resources = [
         url: "https://www.canva.com"
     },
     {
+        name: "MailerLite",
+        category: "marketing",
+        description: "Email marketing platform popular with authors for newsletters and reader funnels.",
+        url: "https://www.mailerlite.com"
+    },
+    {
         name: "PrintNinja",
         category: "printing",
         description: "High-quality offset printing for books, games, and custom products.",
@@ -146,13 +164,13 @@ const resources = [
     {
         name: "NaNoWriMo",
         category: "communities",
-        description: "National Novel Writing Month - annual writing event and year-round community.",
+        description: "National Novel Writing Month — annual writing event and year-round community.",
         url: "https://nanowrimo.org"
     },
     {
-        name: "The Writers' Guild",
+        name: "Writers Guild of America",
         category: "communities",
-        description: "Professional organizations for writers in various countries.",
+        description: "Professional labor union for writers in film, television, and digital media.",
         url: "https://www.wga.org"
     },
     {
@@ -163,63 +181,101 @@ const resources = [
     }
 ];
 
+const categoryLabels = {
+    writing: 'Writing Tools',
+    publishing: 'Publishing',
+    'self-publishing': 'Self-Publishing',
+    marketing: 'Marketing',
+    printing: 'Printing & Merch',
+    communities: 'Communities'
+};
+
 let currentCategory = 'all';
+let currentQuery = '';
+
+function escapeHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function openLink(url) {
+    if (window.electronAPI && typeof window.electronAPI.openExternal === 'function') {
+        window.electronAPI.openExternal(url);
+    } else {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
+}
 
 function createResourceCard(resource) {
     const card = document.createElement('div');
     card.className = 'resource-card';
     card.dataset.category = resource.category;
-    
+
+    const label = categoryLabels[resource.category] || resource.category;
     card.innerHTML = `
-        <span class="category-tag">${resource.category.replace('-', ' ')}</span>
-        <h3>${resource.name}</h3>
-        <p>${resource.description}</p>
-        <a href="${resource.url}" class="resource-link">Visit Resource</a>
+        <span class="category-tag">${escapeHtml(label)}</span>
+        <h3>${escapeHtml(resource.name)}</h3>
+        <p>${escapeHtml(resource.description)}</p>
+        <a href="${escapeHtml(resource.url)}" class="resource-link" rel="noopener noreferrer">Visit</a>
     `;
-    
+
     card.addEventListener('click', (e) => {
-        if (!e.target.closest('.resource-link')) {
-            e.preventDefault();
-            const link = card.querySelector('.resource-link');
-            if (link) {
-                window.location.href = resource.url;
-            }
-        }
+        e.preventDefault();
+        openLink(resource.url);
     });
-    
+
     return card;
 }
 
-function displayResources(category = 'all') {
+function displayResources() {
     const grid = document.getElementById('resourcesGrid');
+    const emptyState = document.getElementById('emptyState');
     grid.innerHTML = '';
-    
-    const filteredResources = category === 'all' 
-        ? resources 
-        : resources.filter(r => r.category === category);
-    
-    filteredResources.forEach(resource => {
+
+    const q = currentQuery.trim().toLowerCase();
+    const filtered = resources.filter(r => {
+        if (currentCategory !== 'all' && r.category !== currentCategory) return false;
+        if (!q) return true;
+        return (
+            r.name.toLowerCase().includes(q) ||
+            r.description.toLowerCase().includes(q) ||
+            (categoryLabels[r.category] || r.category).toLowerCase().includes(q)
+        );
+    });
+
+    filtered.forEach(resource => {
         grid.appendChild(createResourceCard(resource));
     });
+
+    if (emptyState) {
+        emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
+    }
 }
 
 function initializeApp() {
     displayResources();
-    
+
     const categoryButtons = document.querySelectorAll('.category-btn');
     categoryButtons.forEach(button => {
         button.addEventListener('click', () => {
             categoryButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = button.dataset.category;
-            displayResources(currentCategory);
+            displayResources();
         });
     });
-    
-    // Remove target="_blank" to let Electron handle external links
-    document.querySelectorAll('a[target="_blank"]').forEach(link => {
-        link.removeAttribute('target');
-    });
+
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            currentQuery = e.target.value;
+            displayResources();
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', initializeApp);

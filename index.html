@@ -3,32 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scribe - Author Resources</title>
+    <title>Scribe — Author Resources</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>📚 Scribe</h1>
+            <h1><span class="quill" aria-hidden="true">✒️</span> Scribe</h1>
             <p class="tagline">Your Complete Author Resource Directory</p>
         </header>
 
-        <nav class="category-nav">
+        <div class="search-wrap">
+            <input
+                type="search"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search resources by name, description, or category..."
+                autocomplete="off"
+                spellcheck="false"
+            />
+        </div>
+
+        <nav class="category-nav" aria-label="Filter by category">
             <button class="category-btn active" data-category="all">All Resources</button>
             <button class="category-btn" data-category="writing">Writing Tools</button>
             <button class="category-btn" data-category="publishing">Publishing</button>
             <button class="category-btn" data-category="self-publishing">Self-Publishing</button>
             <button class="category-btn" data-category="marketing">Marketing</button>
-            <button class="category-btn" data-category="printing">Printing & Merch</button>
+            <button class="category-btn" data-category="printing">Printing &amp; Merch</button>
             <button class="category-btn" data-category="communities">Communities</button>
         </nav>
 
-        <main class="resources-grid" id="resourcesGrid">
-            <!-- Resources will be dynamically loaded here -->
-        </main>
+        <main class="resources-grid" id="resourcesGrid"></main>
+        <p class="empty-state" id="emptyState" style="display:none">No resources match your search.</p>
 
         <footer>
-            <p>All links open in your default browser</p>
+            <p>All links open in your default browser.</p>
         </footer>
     </div>
 
